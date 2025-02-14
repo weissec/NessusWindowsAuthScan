@@ -21,6 +21,33 @@ REG save "HKLM\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile\Service
 echo (If the last command returned an error, please ignore it.)
 REG save "HKLM\SOFTWARE\Policies\Microsoft\Windows\Network Connections" "%runningpath%\Settings-Backup\Nessus-Original-Key-3.hiv"
 REG save "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\system" "%runningpath%\Settings-Backup\Nessus-Original-Key-4.hiv"
+
+:: Save the current state of the WMI service
+sc query winmgmt > "%runningpath%\Settings-Backup\wmi_state.txt"
+findstr /C:"RUNNING" "%runningpath%\Settings-Backup\wmi_state.txt" >nul
+if %errorlevel% equ 0 (
+    set WMI_ORIGINAL_STATE=RUNNING
+) else (
+    set WMI_ORIGINAL_STATE=STOPPED
+)
+
+:: Save the current start type of the WMI service
+sc qc winmgmt | findstr /C:"DEMAND_START" >nul
+if %errorlevel% equ 0 (
+    set WMI_ORIGINAL_START_TYPE=DEMAND_START
+) else (
+    sc qc winmgmt | findstr /C:"AUTO_START" >nul
+    if %errorlevel% equ 0 (
+        set WMI_ORIGINAL_START_TYPE=AUTO_START
+    ) else (
+        set WMI_ORIGINAL_START_TYPE=UNKNOWN
+    )
+)
+
+:: Save the WMI state to a file for the Post-Scan script
+echo %WMI_ORIGINAL_STATE% > "%runningpath%\Settings-Backup\wmi_original_state.txt"
+echo %WMI_ORIGINAL_START_TYPE% >> "%runningpath%\Settings-Backup\wmi_original_state.txt"
+
 echo.
 echo [ATTENTION] Original system configuration saved. Do not delete the following folder:
 echo %runningpath%Settings-Backup\
@@ -47,6 +74,11 @@ REG add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Network Connections" /v NC_Per
 
 echo [-] Disabling UAC (User Account Control)
 REG add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\system" /v LocalAccountTokenFilterPolicy /t REG_DWORD /d 1 /f
+
+:: Enable and start the WMI service
+echo [-] Enabling and starting the WMI service...
+sc config winmgmt start= auto
+sc start winmgmt
 
 echo.
 echo [DONE] All commmands successfully completed.

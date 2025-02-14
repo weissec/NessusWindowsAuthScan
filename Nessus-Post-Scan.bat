@@ -25,6 +25,23 @@ REG restore "HKLM\SOFTWARE\Policies\Microsoft\Windows\Network Connections" "%run
 echo Restoring original UAC (User Account Control) settings..
 REG restore "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\system" "%runningpath%\Settings-Backup\Nessus-Original-Key-4.hiv"
 
+:: Restore the WMI service to its original state
+echo Restoring original WMI service state...
+for /f "tokens=1,2" %%a in ("%runningpath%\Settings-Backup\wmi_original_state.txt") do (
+    set WMI_ORIGINAL_STATE=%%a
+    set WMI_ORIGINAL_START_TYPE=%%b
+)
+
+if "%WMI_ORIGINAL_STATE%"=="STOPPED" (
+    sc stop winmgmt
+)
+
+if "%WMI_ORIGINAL_START_TYPE%"=="DEMAND_START" (
+    sc config winmgmt start= demand
+) else if "%WMI_ORIGINAL_START_TYPE%"=="AUTO_START" (
+    sc config winmgmt start= auto
+)
+
 echo.
 echo All commmands successfully completed. Original configuration restored.
 echo You can now delete the scripts and backup folder.
