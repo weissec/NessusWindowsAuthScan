@@ -22,3 +22,4 @@ The script must be run with administrative privileges.
 - Sets registry key for Remote and Local access
 - Disables Internet Connection Firewall for local LAN or VPN connections
 - Disables UAC (User Account Control)
+- Enable WMI Service
