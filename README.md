@@ -1,4 +1,4 @@
-# NessusWindowsAuthScan
+# Nessus Windows Credentialed Scan Preparation Script
 
 Windows script to deploy the necessary configuration changes to allow Nessus authenticated scans.
 The script automates some configuration changes necessary for Tenable Nessus to perform credentialed checks.
