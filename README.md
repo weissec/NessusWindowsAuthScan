@@ -13,4 +13,12 @@ To create a backup of the configuration and prepare the system for a scan, run: 
 To revert to the original configuration after a scan, run: Nessus-Post-Scan.bat
 
 #### Requirements: 
-The script must be run as an administrator. 
+The script must be run with administrative privileges.
+
+#### Configuration Changes:
+- Enables File and Printer Sharing
+- Starts Remote Registry service
+- Sets registry key for File and Printer services 
+- Sets registry key for Remote and Local access
+- Disables Internet Connection Firewall for local LAN or VPN connections
+- Disables UAC (User Account Control)
