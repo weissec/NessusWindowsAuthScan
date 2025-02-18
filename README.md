@@ -8,12 +8,8 @@ The script creates a backup of the original configuration/settings so that these
 
 #### How to run:
 Simply download the .bat files, right-click on them and select "Run as Administrator".  
-To create a backup of the configuration and prepare the system for a scan, run: Nessus-Pre-Scan.bat  
-To revert to the original configuration after a scan, run: Nessus-Post-Scan.bat  
-
-
-> [!NOTE]
-> The script must be run with administrative privileges.
+To create a backup of the configuration and prepare the system for a scan, run: `Nessus-Pre-Scan.bat`  
+To revert to the original configuration after a scan, run: `Nessus-Post-Scan.bat` 
 
 #### Configuration Changes:
 - Enables File and Printer Sharing
