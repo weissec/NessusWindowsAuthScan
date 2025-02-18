@@ -36,10 +36,10 @@ Note: A domain account can be used as long as that account is a local administra
     - Antivirus or Endpoint Security rules
     - IPS/IDS
 7. The default administrative shares must be enabled.
-  - These shares include:
-    - IPC$
-    - ADMIN$
-    - C$
-  - The setting that controls this is AutoShareServer (Windows Server) or AutoShareWks (Windows Workstation) which must be set to 1.
-  - Windows 10 has the ADMIN$ disabled by default.
-  - For all other operating systems, these shares are enabled by default and can cause other issues if disabled. For more information, see http://support.microsoft.com/kb/842715/en-us
+      - These shares include:
+        - IPC$
+        - ADMIN$
+        - C$
+      - The setting that controls this is AutoShareServer (Windows Server) or AutoShareWks (Windows Workstation) which must be set to 1.
+      - Windows 10 has the ADMIN$ disabled by default.
+      - For all other operating systems, these shares are enabled by default and can cause other issues if disabled. For more information, see http://support.microsoft.com/kb/842715/en-us
