@@ -12,8 +12,8 @@ Simply download the .bat files, right-click on them and select "Run as Administr
 To create a backup of the configuration and prepare the system for a scan, run: Nessus-Pre-Scan.bat
 To revert to the original configuration after a scan, run: Nessus-Post-Scan.bat
 
-#### Requirements: 
-The script must be run with administrative privileges.
+> [!NOTE]
+> The script must be run with administrative privileges.
 
 #### Configuration Changes:
 - Enables File and Printer Sharing
@@ -23,6 +23,70 @@ The script must be run with administrative privileges.
 - Disables Internet Connection Firewall for local LAN or VPN connections
 - Disables UAC (User Account Control)
 - Enable WMI Service
+
+## Testing and Debugging
+Testing from a Windows Host:
+
+Test the IPC$ share:
+```
+net use \\<Target_IP>\ipc$ "" /user:""
+```
+**Errors resolution steps:**
+- Ensure SMB is set up correctly
+- Double-check firewall settings
+
+SMB Log on Test:
+```
+net use \\<Target_IP>\ipc$ /user:<username> <password>
+net use \\<Target_IP>\admin$ /user:<username> <password>
+```
+**Errors resolution steps:**
+- Check the credentials.
+- Check the account has sufficient privileges.
+
+Remote Registry Test:
+```
+reg query \\x.x.x.x\hklm
+```
+**Errors resolution steps:**
+- service must be enabled and started
+
+WMI Troubleshooting and Test:
+From another Windows host that can reach the scan target over the network:
+- Run wbemtest from the Start Menu.
+- Click 'Connect' in the upper-right corner.
+- In the Namespace field, enter the target namespace as '\\target_host_ip\root\cimv2'. Thus, if the scan target is located at 10.10.0.63, enter '\\10.10.0.63\root\cimv2'.
+- In the Credentials section, enter the credentials of the scanning account. Use 'domain\username' syntax in the User field.
+- Click Connect in the upper-right corner.
+- If successful, the wbemtest window should list the namespace as \\target_host_ip\root\cimv2. In the IWbemServices section below, a number of buttons should appear.
+- Click Query... and enter the following query exactly in the popup, then click Apply: 'select DomainRole from Win32_ComputerSystem'
+- A Query Result window with a single entry reading 'Win32_ComputerSystem=<no key>' should appear. Double-click that entry.
+- In the Instance of Win32_ComputerSystem window, scroll down in the Properties list. A DomainRole entry should appear, with a value of 2, 3, 4 or 5.
+- If the test above failed, do the following on the scan target:
+
+**Errors resolution steps:**
+- Ensure that the WMI service is enabled and running.
+- Ensure the scan user has access to the root/CIMV2 namespace:
+- Open wmimgmt.msc.
+- In the left-hand panel, right-click WMI Control (Local) and choose Properties.
+- Click the Security tab, expand the Root folder, and select the CIMV2 folder. Click the Security button.
+- In the 'Security for ROOT/CIMV2' window, click the Advanced button.
+- Confirm that the scanning account, or a group which it belongs to, is listed in this window. Click on the relevant entry and click the View button.
+- Confirm that the permissions entry covering the scanning account has both the Enable Account and Remote Enable permissions set.
+- Add the scanning account to the Distributed COM user group on the scan target.
+- Alternatively, open Component Services (dcomcnfg) from the Start Menu.
+- In the left panel, expand Component Services, then Computers, and right-click on My Computer. Select Properties.
+- In the COM Security tab of the My Computer Properties window, click the Edit Limits button in the Access Permissions section. Ensure that the scanning account has all permissions.
+- Repeat the previous step with the Edit Limits option under the Launch and Activation Permissions section.
+
+Testing from a Linux Host
+```
+yum install samba-client
+smbclient //<Target_IP>/IPC$ -U <username> <password>
+```
+**Errors resolution steps:**
+Check the credentials.
+Check that the account has sufficient privileges.
 
 ### Nessus Recommendations:
 1. The Windows Management Instrumentation (WMI) service must be enabled on the target. For more information, please see: Introduction to WEBMTEST. Additionally, ensure that ports 49152 through 65535 are open between the scanner and the target, as WMI connections will choose one of these ports to target.
