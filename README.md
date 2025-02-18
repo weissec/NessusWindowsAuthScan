@@ -30,7 +30,7 @@ To revert to the original configuration after a scan, run: Nessus-Post-Scan.bat
 ```
 net use \\<Target_IP>\ipc$ "" /user:""
 ```
-**Errors resolution steps:**
+Errors resolution steps:
 - Ensure SMB is set up correctly
 - Double-check firewall settings
 
@@ -39,7 +39,7 @@ net use \\<Target_IP>\ipc$ "" /user:""
 net use \\<Target_IP>\ipc$ /user:<username> <password>
 net use \\<Target_IP>\admin$ /user:<username> <password>
 ```
-**Errors resolution steps:**
+Errors resolution steps:
 - Check the credentials.
 - Check the account has sufficient privileges.
 
@@ -47,7 +47,7 @@ net use \\<Target_IP>\admin$ /user:<username> <password>
 ```
 reg query \\x.x.x.x\hklm
 ```
-**Errors resolution steps:**
+Errors resolution steps:
 - service must be enabled and started
 
 #### WMI Troubleshooting and Test:
@@ -63,7 +63,7 @@ From another Windows host that can reach the scan target over the network:
 - In the Instance of Win32_ComputerSystem window, scroll down in the Properties list. A DomainRole entry should appear, with a value of 2, 3, 4 or 5.
 - If the test above failed, do the following on the scan target:
 
-**Errors resolution steps:**
+Errors resolution steps:
 - Ensure that the WMI service is enabled and running.
 - Ensure the scan user has access to the root/CIMV2 namespace:
 - Open wmimgmt.msc.
@@ -83,7 +83,7 @@ From another Windows host that can reach the scan target over the network:
 yum install samba-client
 smbclient //<Target_IP>/IPC$ -U <username> <password>
 ```
-**Errors resolution steps:**
+Errors resolution steps:
 Check the credentials.
 Check that the account has sufficient privileges.
 
