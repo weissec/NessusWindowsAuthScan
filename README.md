@@ -1,9 +1,8 @@
 # Nessus Windows Credentialed Scan Preparation Script
 
-Windows script to deploy the necessary configuration changes to allow Nessus authenticated scans.
 The script automates some configuration changes necessary for Tenable Nessus to perform credentialed checks.
 
-More information about the necessary configuration changes can be found here: https://docs.tenable.com/nessus/Content/CredentialedChecksOnWindows.htm
+More information about the necessary configuration changes and how to debug common errors can be found below.
 
 The script creates a backup of the original configuration/settings so that these can be reverted after the scans.
 
