@@ -32,14 +32,14 @@ The script must be run with administrative privileges.
 Note: A domain account can be used as long as that account is a local administrator on the devices being scanned.
 5. TCP ports 139 and 445 must be open between the Nessus Scanner and the target.
 6. Ensure that there are no security policies are in place that blocks access to these services. This can include:
- - Windows Security Policies
- - Antivirus or Endpoint Security rules
- - IPS/IDS
+  - Windows Security Policies
+  - Antivirus or Endpoint Security rules
+  - IPS/IDS
 7. The default administrative shares must be enabled.
- - These shares include:
-  - IPC$
-  - ADMIN$
-  - C$
- - The setting that controls this is AutoShareServer (Windows Server) or AutoShareWks (Windows Workstation) which must be set to 1.
- - Windows 10 has the ADMIN$ disabled by default.
- - For all other operating systems, these shares are enabled by default and can cause other issues if disabled. For more information, see http://support.microsoft.com/kb/842715/en-us
+  - These shares include:
+    - IPC$
+    - ADMIN$
+    - C$
+  - The setting that controls this is AutoShareServer (Windows Server) or AutoShareWks (Windows Workstation) which must be set to 1.
+  - Windows 10 has the ADMIN$ disabled by default.
+  - For all other operating systems, these shares are enabled by default and can cause other issues if disabled. For more information, see http://support.microsoft.com/kb/842715/en-us
