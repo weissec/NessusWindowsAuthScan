@@ -87,6 +87,8 @@ Errors resolution steps:
 Check the credentials.
 Check that the account has sufficient privileges.
 
+Other authentication errors might be resolved by using Kerberos authentication. Use your domain controller for the KDC on the Kerberos credential menu in the Nessus policy.
+
 ## Nessus Recommendations:
 1. The Windows Management Instrumentation (WMI) service must be enabled on the target. For more information, please see: Introduction to WEBMTEST. Additionally, ensure that ports 49152 through 65535 are open between the scanner and the target, as WMI connections will choose one of these ports to target.
 2. The Remote Registry service must be enabled on the target.
