@@ -25,9 +25,8 @@ To revert to the original configuration after a scan, run: Nessus-Post-Scan.bat
 - Enable WMI Service
 
 ## Testing and Debugging
-Testing from a Windows Host:
 
-Test the IPC$ share:
+#### Test the IPC$ share:
 ```
 net use \\<Target_IP>\ipc$ "" /user:""
 ```
@@ -35,7 +34,7 @@ net use \\<Target_IP>\ipc$ "" /user:""
 - Ensure SMB is set up correctly
 - Double-check firewall settings
 
-SMB Log on Test:
+#### SMB Log on Test:
 ```
 net use \\<Target_IP>\ipc$ /user:<username> <password>
 net use \\<Target_IP>\admin$ /user:<username> <password>
@@ -44,14 +43,14 @@ net use \\<Target_IP>\admin$ /user:<username> <password>
 - Check the credentials.
 - Check the account has sufficient privileges.
 
-Remote Registry Test:
+#### Remote Registry Test:
 ```
 reg query \\x.x.x.x\hklm
 ```
 **Errors resolution steps:**
 - service must be enabled and started
 
-WMI Troubleshooting and Test:
+#### WMI Troubleshooting and Test:
 From another Windows host that can reach the scan target over the network:
 - Run wbemtest from the Start Menu.
 - Click 'Connect' in the upper-right corner.
@@ -79,7 +78,7 @@ From another Windows host that can reach the scan target over the network:
 - In the COM Security tab of the My Computer Properties window, click the Edit Limits button in the Access Permissions section. Ensure that the scanning account has all permissions.
 - Repeat the previous step with the Edit Limits option under the Launch and Activation Permissions section.
 
-Testing from a Linux Host
+#### Testing from a Linux Host
 ```
 yum install samba-client
 smbclient //<Target_IP>/IPC$ -U <username> <password>
@@ -88,7 +87,7 @@ smbclient //<Target_IP>/IPC$ -U <username> <password>
 Check the credentials.
 Check that the account has sufficient privileges.
 
-### Nessus Recommendations:
+## Nessus Recommendations:
 1. The Windows Management Instrumentation (WMI) service must be enabled on the target. For more information, please see: Introduction to WEBMTEST. Additionally, ensure that ports 49152 through 65535 are open between the scanner and the target, as WMI connections will choose one of these ports to target.
 2. The Remote Registry service must be enabled on the target.
 3. File & Printer Sharing must be enabled in the target's network configuration.
